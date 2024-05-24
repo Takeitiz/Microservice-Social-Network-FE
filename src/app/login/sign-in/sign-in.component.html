@@ -1,0 +1,29 @@
+<div class="login_box">
+  <div class="left">
+    <div class="signin">
+      <form>
+        <h1>SIGN IN</h1>
+        <input
+          [(ngModel)]="user.email"
+          name="email"
+          type="text"
+          placeholder="Email"
+        />
+        <input
+          [(ngModel)]="user.password"
+          name="password"
+          type="password"
+          placeholder="Password"
+        />
+        <button type="button" class="submit" (click)="login()">LOGIN</button>
+      </form>
+    </div>
+  </div>
+  <div class="right">
+    <div class="signup">
+      <h2>Welcome to Z</h2>
+      <h5>Don't have an account?</h5>
+      <a type="button" class="submit" routerLink="/auth/signup">Sign Up</a>
+    </div>
+  </div>
+</div>
