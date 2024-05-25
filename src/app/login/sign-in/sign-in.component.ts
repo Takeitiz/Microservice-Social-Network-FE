@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { User } from '../../models/user.model';
+import { KeycloakService } from '../../services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,10 +11,20 @@ import { User } from '../../models/user.model';
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
-export class SignInComponent {
-  user: User = new User();
+export class SignInComponent implements OnInit {
 
-  login(): void {
-    console.log(this.user);
+  constructor(
+    private keycloakService: KeycloakService
+  ) { }
+
+  async ngOnInit() {
+    await this.keycloakService.init();
+    await this.keycloakService.login();
   }
+
+  // user: User = new User();
+
+  // login(): void {
+  //   console.log(this.user);
+  // }
 }
