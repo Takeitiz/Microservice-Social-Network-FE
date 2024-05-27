@@ -1,3 +1,5 @@
+import { AppComponent } from "../app.component";
+
 export class User {
     id: string;
     firstName: string;
@@ -17,5 +19,15 @@ export class User {
         this.phone = phone;
         this.dateOfBirth = dateOfBirth;
         this.role = role;
+    }
+
+    getAvatar(): string {
+        // return AppComponent.baseUrl + 'app-images/' + this.id + '.jpg';
+        // fix later
+        return AppComponent.defaultAvatar;
+    }
+
+    getDefaultAvatar(): string {
+        return AppComponent.defaultAvatar;
     }
 }

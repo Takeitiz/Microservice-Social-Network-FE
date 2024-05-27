@@ -1,0 +1,95 @@
+<header>
+  <nav>
+    <div class="container">
+      <h2 class="logo" (click)="navigateToDashboard()">Dart</h2>
+
+      <div class="search-bar">
+        <i class="uil uil-search"></i>
+        <input
+          type="search"
+          placeholder="Search for friends"
+          (search)="search($event)"
+        />
+      </div>
+
+      <div class="menu-bar">
+        <div class="notification" hidden>
+          <span class="bell"
+            ><i class="uil uil-bell"
+              ><small class="notification-count">9+</small></i
+            ></span
+          >
+          <div class="notification-popup">
+            <div>
+              <div class="profile-picture">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkXKGdKZxjWDJatds7-fvxpBzQe0fc8ON3Pw&usqp=CAU"
+                  alt=""
+                />
+              </div>
+              <div class="notification-body">
+                <b>User 2</b> accepted your friend request
+                <small class="text-muted">2 DAYS AGO</small>
+              </div>
+            </div>
+
+            <div>
+              <div class="profile-picture">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkXKGdKZxjWDJatds7-fvxpBzQe0fc8ON3Pw&usqp=CAU"
+                  alt=""
+                />
+              </div>
+              <div class="notification-body">
+                <b>User 2</b> accepted your friend request
+                <small class="text-muted">2 DAYS AGO</small>
+              </div>
+            </div>
+
+            <div>
+              <div class="profile-picture">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkXKGdKZxjWDJatds7-fvxpBzQe0fc8ON3Pw&usqp=CAU"
+                  alt=""
+                />
+              </div>
+              <div class="notification-body">
+                <b>User 2</b> accepted your friend request
+                <small class="text-muted">2 DAYS AGO</small>
+              </div>
+            </div>
+
+            <div>
+              <div class="profile-picture">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkXKGdKZxjWDJatds7-fvxpBzQe0fc8ON3Pw&usqp=CAU"
+                  alt=""
+                />
+              </div>
+              <div class="notification-body">
+                <b>User 2</b> accepted your friend request
+                <small class="text-muted">2 DAYS AGO</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="message" hidden>
+          <i class="uil uil-facebook-messenger-alt"></i>
+        </div>
+        <div
+          *ngIf="this.user"
+          class="profile-picture"
+          (click)="navigateToWall()"
+        >
+          <img
+            [src]="this.user.getAvatar()"
+            (error)="this.user.getDefaultAvatar()"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<router-outlet></router-outlet>
