@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { NgIf, } from '@angular/common';
 import { User } from '../models/user.model';
+// import { KeycloakService } from '../services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-dashboard',

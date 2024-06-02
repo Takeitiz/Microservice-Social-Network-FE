@@ -12,11 +12,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    // {
-    //   provide: APP_INITIALIZER,
-    //   deps: [KeycloakService],
-    //   useFactory: kcFactory,
-    //   multi: true
-    // }
+    {
+      provide: APP_INITIALIZER,
+      deps: [KeycloakService],
+      useFactory: kcFactory,
+      multi: true
+    }
   ]
 };

@@ -15,8 +15,9 @@ export class KeycloakService {
       this._keycloak = new Keycloak({
         url: 'http://localhost:9090',
         realm: 'social-network',
-        clientId: 'bsn'
-      })
+        clientId: 'sn',
+      }
+      )
     }
     return this._keycloak;
   }
@@ -36,6 +37,7 @@ export class KeycloakService {
     if (authenticated) {
       this._profile = (await this.keycloak?.loadUserProfile()) as UserProfile;
       this._profile.token = this.keycloak?.token;
+      console.log(this._profile);
     }
   }
 
@@ -44,8 +46,6 @@ export class KeycloakService {
   }
 
   logout() {
-    return this.keycloak?.logout({
-      redirectUri: 'http://localhost:4200'
-    });
+    return this.keycloak?.logout();
   }
 }

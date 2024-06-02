@@ -30,4 +30,20 @@ export class User {
     getDefaultAvatar(): string {
         return AppComponent.defaultAvatar;
     }
+
+    getFullName(): string {
+        return this.firstName + " " + this.lastName;
+    }
+
+    getEmailPrefix(): string {
+        let prefixIndex = this.email.indexOf("@");
+        if (prefixIndex === -1) {
+            return this.email;
+        }
+        return this.email.substring(0, prefixIndex);
+    }
+
+    getDateOfBirth(): string {
+        return this.dateOfBirth.toString();
+    }
 }
