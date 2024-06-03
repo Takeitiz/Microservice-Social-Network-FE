@@ -1,1 +1,12 @@
-<div>Newsfeed</div>
+<body>
+  <div class="container">
+    <div class="left">
+      <app-sidebar
+        [showCreatePost]="true"
+        [currentUser]="this.currentUser"
+        (onSettingClick)="showTab($event)"
+        (onCreatePostClick)="createPostButtonClick()"
+      ></app-sidebar>
+    </div>
+  </div>
+</body>

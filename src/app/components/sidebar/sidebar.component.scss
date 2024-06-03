@@ -1,0 +1,258 @@
+@import url('../styles.scss');
+
+.left {
+    height: max-content;
+    position: sticky;
+    top: var(--sticky-top-left);
+
+    .btn {
+        display: inline-block;
+        font-weight: 500;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: all 300ms ease;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        width: 100%;
+        text-align: center;
+        padding: 1rem 0;
+    }
+
+    .profile {
+        padding: var(--card-padding);
+        background-color: var(--color-white);
+        border-radius: var(--card-border-radius);
+        display: grid;
+        grid-template-columns: 2.7rem auto;
+        align-items: center;
+        column-gap: 1rem;
+        width: 100%;
+        overflow: hidden;
+
+        .profile-picture {
+            width: 2.7rem;
+            height: 2.7rem;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 300ms ease;
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+    
+    .side-bar {
+        margin-top: 1rem;
+        background-color: var(--color-white);
+        border-radius: var(--card-border-radius);
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            height: 4rem;
+            cursor: pointer;
+            transition: all 300ms ease;
+            position: relative;
+
+            &:hover {
+                background-color: var(--color-light);
+            }
+
+            &:first-child.active {
+                border-top-left-radius: var(--card-border-radius);
+                overflow: hidden;
+            }
+
+            &:last-child.active {
+                border-bottom-left-radius: var(--card-border-radius);
+                overflow: hidden;
+            }
+        }
+
+        i {
+            font-size: 1.4rem;
+            color: var(--color-gray);
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        h3 {
+            margin-left: 1.5rem;
+            font-size: 1rem;
+            color: var(--color-dark);
+        }
+
+        .active {
+            background-color: var(--color-light);
+
+            i,
+            h3 {
+                color: var(--color-primary);
+            }
+
+            &::before {
+                content: "";
+                display: block;
+                width: 0.5rem;
+                height: 100%;
+                position: absolute;
+                background-color: var(--color-primary);
+            }
+        }
+    }
+}
+
+.customize-theme {
+    background-color: rgba($color: white, $alpha: 0.5);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    text-align: center;
+    display: grid;
+    place-items: center;
+    font-size: 0.9rem;
+    display: none;
+
+    .card {
+        background-color: var(--color-white);
+        padding: 3rem;
+        border-radius: var(--card-border-radius);
+        width: 50%;
+        box-shadow: 0 0 1rem var(--color-primary);
+    }
+
+    .font-size {
+        margin-top: 5rem;
+
+        >div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--color-light);
+            padding: var(--search-padding);
+            border-radius: var(--card-border-radius);
+        }
+    }
+
+    .choose-size {
+        background-color: var(--color-secondary);
+        height: 0.3rem;
+        width: 100%;
+        margin: 0 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        span {
+            width: 1rem;
+            height: 1rem;
+            background-color: var(--color-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+
+            &.active {
+                background-color: var(--color-primary);
+            }
+        }
+    }
+
+    .color {
+        margin-top: 2rem;
+    }
+
+    .choose-color {
+        background-color: var(--color-light);
+        padding: var(--search-padding);
+        border-radius: var(--card-border-radius);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        span {
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
+
+            &.active {
+                border: 5px solid white;
+            }
+
+            &:nth-child(1) {
+                background-color: hsl(252, 75%, 60%);
+            }
+
+            &:nth-child(2) {
+                background-color: hsl(52, 75%, 60%);
+            }
+
+            &:nth-child(3) {
+                background-color: hsl(352, 75%, 60%);
+            }
+
+            &:nth-child(4) {
+                background-color: hsl(152, 75%, 60%);
+            }
+
+            &:nth-child(5) {
+                background-color: hsl(202, 75%, 60%);
+            }
+        }
+    }
+
+    .background {
+        margin-top: 2rem;
+    }
+
+    .choose-bg {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+
+        >div {
+            padding: var(--card-padding);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 0.4rem;
+            cursor: pointer;
+
+            &.active {
+                border: 2px solid var(--color-primary);
+            }
+
+            span {
+                width: 2rem;
+                height: 2rem;
+                border: 2px solid var(--color-gray);
+                border-radius: 50%;
+                margin-right: 1rem;
+            }
+        }
+
+        .bg-1 {
+            background-color: white;
+            color: black;
+        }
+
+        .bg-2 {
+            background-color: hsl(252, 30%, 17%);
+            color: white;
+        }
+
+        .bg-3 {
+            background-color: hsl(252, 30%, 10%);
+            color: white;
+        }
+    }
+}

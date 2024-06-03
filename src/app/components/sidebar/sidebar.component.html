@@ -1,0 +1,96 @@
+<div class="left">
+  <a class="profile">
+    <div class="profile-picture" (click)="navigateToWall()">
+      <img
+        [src]="this.currentUser.getAvatar()"
+        (error)="this.currentUser.getDefaultAvatar()"
+        alt=""
+      />
+    </div>
+    <div class="handle">
+      <h4>{{ this.currentUser.getFullName() }}</h4>
+      <p class="text-muted">{{ this.currentUser.getEmailPrefix() }}</p>
+    </div>
+  </a>
+  <div class="side-bar">
+    <a class="menu-item active" (click)="showTab(0)" id="home">
+      <span><i class="uil uil-house-user"></i></span>
+      <h3>Home</h3>
+    </a>
+    <a class="menu-item" (click)="showTab(1)">
+      <span><i class="uil uil-users-alt"></i></span>
+      <h3>Friends</h3>
+    </a>
+    <a class="menu-item" id="theme">
+      <span><i class="uil uil-palette"></i></span>
+      <h3>Theme</h3>
+    </a>
+    <a class="menu-item" *ngIf="currentUser.role == 1">
+      <span><i class="uil uil-window"></i></span>
+      <h3>Admin</h3>
+    </a>
+    <a class="menu-item" (click)="showTab(2)">
+      <span><i class="uil uil-setting"></i></span>
+      <h3>Settings</h3>
+    </a>
+  </div>
+  <label
+    *ngIf="showCreatePost"
+    for="create-post"
+    class="btn btn-primary"
+    (click)="createPost()"
+  >
+    Create Post
+  </label>
+</div>
+
+<div class="customize-theme">
+  <div class="card">
+    <h2>Customize your view</h2>
+    <p class="text-muted">Manage your font size, color, and background.</p>
+
+    <div class="font-size">
+      <h4>Font Size</h4>
+      <div>
+        <h6>Aa</h6>
+        <div class="choose-size">
+          <span class="font-size-1"></span>
+          <span class="font-size-2"></span>
+          <span class="font-size-3 active"></span>
+          <span class="font-size-4"></span>
+          <span class="font-size-5"></span>
+        </div>
+        <h3>Aa</h3>
+      </div>
+    </div>
+
+    <div class="color">
+      <h4>Color</h4>
+      <div class="choose-color">
+        <span class="color-1 active"></span>
+        <span class="color-2"></span>
+        <span class="color-3"></span>
+        <span class="color-4"></span>
+        <span class="color-5"></span>
+      </div>
+    </div>
+
+    <div class="background">
+      <h4>Background</h4>
+      <div class="choose-bg">
+        <div class="bg-1 active">
+          <span></span>
+          <h5 for="bg-1">Light</h5>
+        </div>
+        <div class="bg-2">
+          <span></span>
+          <h5 for="bg-2">Dim</h5>
+        </div>
+        <div class="bg-3">
+          <span></span>
+          <h5 for="bg-3">Light Out</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

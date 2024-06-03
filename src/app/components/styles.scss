@@ -1,0 +1,50 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    border: none;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+.btn {
+    display: inline-block;
+    padding: var(--btn-padding);
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-size: 0.9rem;
+}
+
+.btn:hover,
+.profile-picture:hover {
+    opacity: 0.75;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btn-success {
+    background-color: rgb(0, 175, 0);
+    color: white;
+}
+
+.profile-picture {
+    width: 2.7rem;
+    height: 2.7rem;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 300ms ease;
+}

@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { NgIf, } from '@angular/common';
 import { User } from '../models/user.model';
-// import { KeycloakService } from '../services/keycloak/keycloak.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,13 +12,30 @@ import { User } from '../models/user.model';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
-  // fix later
   user: User = new User();
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-    console.log("Hello from dashboard");
+    this.getCurrentUser();
+  }
+
+  getCurrentUser() {
+    let userData = localStorage.getItem('user');
+
+    if (userData) {
+      let userObj = JSON.parse(userData);
+
+      const dobParts = userObj.attributes.dateOfBirth[0].split('/');
+      const dateOfBirth = new Date(+dobParts[2], +dobParts[1] - 1, +dobParts[0]);
+
+      this.user.id = userObj.id;
+      this.user.firstName = userObj.firstName;
+      this.user.lastName = userObj.lastName;
+      this.user.email = userObj.email;
+      this.user.phone = userObj.attributes.phone[0];
+      this.user.dateOfBirth = dateOfBirth;
+    }
   }
 
   navigateToDashboard() {
