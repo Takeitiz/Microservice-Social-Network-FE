@@ -1,0 +1,20 @@
+<div class="comment">
+  <div>
+    <div class="profile-picture" (click)="avatarClick()">
+      <img
+        [src]="this.commentData.user!.getAvatar()"
+        (error)="this.commentData.user!.getDefaultAvatar()"
+        alt=""
+      />
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <span>
+      <div class="text-bold">{{ commentData.user!.getFullName() }}</div>
+      <div>{{ commentData.comment }}</div>
+    </span>
+
+    <h4 class="text-muted">{{ timeDiff }}</h4>
+  </div>
+</div>

@@ -1,0 +1,214 @@
+<div class="feed" *ngIf="this.postData">
+  <div class="head">
+    <div class="user">
+      <div class="profile-picture">
+        <img
+          [src]="this.postOwner.getAvatar()"
+          (click)="navigateToWall()"
+          (error)="this.postOwner.getDefaultAvatar()"
+        />
+      </div>
+      <div class="ingo">
+        <h3>{{ this.postOwner.getFullName() }}</h3>
+        <small class="text-muted">{{ timeDiff }}</small>
+      </div>
+    </div>
+    <span
+      class="edit"
+      *ngIf="postOwner.id === currentUser.id && !this.editMode"
+    >
+      <div
+        class="ellipsis"
+        id="ellipsisButton"
+        (click)="onEllipsisButtonClick()"
+      >
+        <i class="uil uil-ellipsis-h"></i>
+      </div>
+      <div class="edit-popup" id="editPopup">
+        <div class="edit-buttons" id="editButton" (click)="setEditMode(true)">
+          <i class="uil uil-pen"></i>Edit
+        </div>
+        <div
+          class="edit-buttons"
+          id="deleteButton"
+          (click)="onDeleteButtonClick()"
+        >
+          <i class="uil uil-trash-alt"></i>Delete
+        </div>
+      </div>
+    </span>
+  </div>
+
+  <div class="caption" *ngIf="!this.editMode">
+    <p *ngFor="let line of this.captionArray" class="line">{{ line }}</p>
+  </div>
+
+  <textarea
+    class="textarea input-edit"
+    placeholder="What's on your mind?"
+    (input)="onEditInput($event)"
+    [(ngModel)]="this.editCaption"
+  ></textarea>
+
+  <div
+    class="photo"
+    *ngIf="this.postData.contents && this.postData.contents.length > 0"
+  >
+    <img
+      *ngFor="let content of this.postData.contents"
+      [src]="getFullLinkContent(content)"
+      alt=""
+    />
+  </div>
+
+  <div class="share-layout" *ngIf="this.sharePostData">
+    <div class="head">
+      <div class="user">
+        <div class="profile-picture">
+          <img
+            [src]="this.sharePostOwner.getAvatar()"
+            (click)="navigateToWall(this.sharePostOwner.id)"
+            (error)="this.sharePostOwner.getDefaultAvatar()"
+            alt=""
+          />
+        </div>
+        <div class="ingo">
+          <h3>{{ this.sharePostOwner.getFullName() }}</h3>
+          <small class="text-muted">{{ this.sharePostTimeDiff }}</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="caption">
+      <p *ngFor="let line of this.shareCaptionArray" class="line">{{ line }}</p>
+    </div>
+
+    <div
+      class="photo"
+      *ngIf="
+        this.sharePostData.contents && this.sharePostData.contents.length > 0
+      "
+    >
+      <img
+        *ngFor="let content of this.sharePostData.contents"
+        [src]="getFullLinkContent(content)"
+        alt=""
+      />
+    </div>
+  </div>
+
+  <div *ngIf="!this.editMode">
+    <div class="action-buttons">
+      <div class="interaction-buttons">
+        <span (click)="onLikeButtonClick()"
+          ><i class="uil uil-thumbs-up" [ngClass]="{ liked: userReact }"></i
+        ></span>
+        <span (click)="onCommentButtonClick()"
+          ><i class="uil uil-comment-alt-dots"></i
+        ></span>
+        <span (click)="onShareButtonClick()"
+          ><i class="uil uil-share"></i
+        ></span>
+      </div>
+
+      <div class="bookmark">
+        <span
+          class="comment-count text-muted"
+          (click)="getPostCommentsWithPaging()"
+        >
+          {{ this.commentCountString }}
+        </span>
+        <span hidden><i class="uil uil-bookmark-full"></i></span>
+      </div>
+    </div>
+
+    <div class="liked-by" *ngIf="this.likedByString">
+      <div>
+        <!-- <span><img src="https://i.pinimg.com/736x/a6/61/f4/a661f414ac9a447b953338b2c953bb38.jpg" alt=""></span>
+            <span><img src="https://cdn.iconscout.com/icon/free/png-256/avatar-370-456322.png" alt=""></span>
+            <span><img
+                    src="https://guantanamocity.org/wp-content/uploads/2020/12/tong-hop-avatar-anime-avatar-anime-doi-cool-ngau-cute-panda-brown-1.jpg"
+                    alt=""></span> -->
+        <p class="text-muted text-bold">{{ this.likedByString }}</p>
+      </div>
+    </div>
+
+    <div class="comments-container">
+      <div
+        class="view-more text-muted"
+        *ngIf="canViewMore"
+        (click)="getPostCommentsWithPaging()"
+      >
+        View more...
+      </div>
+
+      <app-comment
+        *ngFor="let comment of this.postData.comments"
+        [commentData]="comment"
+        (onAvatarClick)="navigateToWall($event)"
+      ></app-comment>
+
+      <div class="create-comment">
+        <div>
+          <div class="profile-picture" (click)="navigateToWall()">
+            <img
+              [src]="this.currentUser.getAvatar()"
+              (error)="this.currentUser.getDefaultAvatar()"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <form (submit)="createComment()">
+          <input
+            type="text"
+            placeholder="Write your comment..."
+            name="inputComment"
+            [(ngModel)]="this.comment"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="edit-mode" *ngIf="this.editMode">
+    <button class="btn btn-muted" (click)="setEditMode(false)">Cancel</button>
+    <button class="btn btn-primary" (click)="onSaveButtonClick()" disabled>
+      Save
+    </button>
+  </div>
+</div>
+
+<div class="create-share">
+  <div class="card">
+    <div class="title">
+      <h2>Share as post</h2>
+    </div>
+    <!-- <span class="textarea" role="textbox" contenteditable="true" [textContent]="this.shareCaption"></span> -->
+    <textarea
+      class="textarea"
+      placeholder="What's on your mind?"
+      [(ngModel)]="this.shareCaption"
+    ></textarea>
+    <div class="content">
+      <div
+        class="photo"
+        *ngIf="this.sharePostData && this.sharePostData.contents"
+      >
+        <img
+          *ngFor="let content of this.sharePostData.contents"
+          [src]="getFullLinkContent(content)"
+          alt=""
+        />
+      </div>
+      <div class="photo" *ngIf="this.postData && this.postData.contents">
+        <img
+          *ngFor="let content of this.postData.contents"
+          [src]="getFullLinkContent(content)"
+          alt=""
+        />
+      </div>
+      <button class="btn btn-primary" (click)="sharePost()">Share</button>
+    </div>
+  </div>
+</div>

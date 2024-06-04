@@ -8,5 +8,21 @@
         (onCreatePostClick)="createPostButtonClick()"
       ></app-sidebar>
     </div>
+
+    <div class="middle">
+      <div class="tab-home">
+        <!------------Create--Post--------------->
+
+        <!------------Feeds---------------------->
+        <div class="feeds">
+          <app-posts
+            *ngFor="let feed of this.newFeeds"
+            [currentUser]="this.currentUser"
+            [postData]="feed"
+          >
+          </app-posts>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
