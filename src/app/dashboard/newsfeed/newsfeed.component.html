@@ -23,6 +23,29 @@
           </app-posts>
         </div>
       </div>
+
+      <div class="tab-friends">
+        <h2>Friends: {{ this.friends.length }}</h2>
+        <app-friend-card
+          *ngFor="let friend of this.friends"
+          [currentUser]="this.currentUser"
+          [friendship]="friend"
+        ></app-friend-card>
+      </div>
+
+      <div class="tab-settings"></div>
+    </div>
+
+    <div class="right">
+      <div class="friend-requests" *ngIf="this.friendRequests.length > 0">
+        <h4>Requests</h4>
+        <!-- <app-requests
+          *ngFor="let friendRequest of this.friendRequests"
+          [friendshipData]="friendRequest"
+          [currentUser]="this.currentUser"
+        >
+        </app-requests> -->
+      </div>
     </div>
   </div>
 </body>

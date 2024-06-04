@@ -1,1 +1,24 @@
-<p>friend-card works!</p>
+<div class="friend-card">
+  <div class="profile">
+    <div class="profile-picture">
+      <img
+        [src]="this.user.getAvatar()"
+        (click)="navigateToWall()"
+        (error)="this.user.getDefaultAvatar()"
+        alt=""
+      />
+    </div>
+    <div class="info">
+      <div class="text-bold" (click)="navigateToWall()">
+        {{ user.getFullName() }}
+      </div>
+      <div class="text-muted">{{ user.getEmailPrefix() }}</div>
+    </div>
+  </div>
+
+  <div *ngIf="showFriendButton">
+    <span class="btn" (click)="onAddFriendButtonClick()"
+      ><i [classList]="icons[this.relationIndex]"></i
+    ></span>
+  </div>
+</div>
