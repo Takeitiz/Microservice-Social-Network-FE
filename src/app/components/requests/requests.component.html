@@ -1,0 +1,21 @@
+<div class="request">
+  <div class="info">
+    <div class="profile-picture">
+      <img
+        (click)="navigateToWall()"
+        [src]="this.user.getAvatar()"
+        (error)="this.user.getDefaultAvatar()"
+        alt=""
+      />
+    </div>
+    <div>
+      <h4>{{ this.user.getFullName() }}</h4>
+      <p class="text-muted">{{ this.user.getEmailPrefix() }}</p>
+    </div>
+  </div>
+  <div class="action">
+    <button class="btn btn-primary" (click)="accept()">Accept</button>
+    <button class="btn" (click)="decline()">Decline</button>
+  </div>
+  <div class="response">Request has been {{ this.response }}</div>
+</div>

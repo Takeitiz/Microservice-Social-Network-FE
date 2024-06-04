@@ -5,6 +5,7 @@ import { Friendship } from '../../models/friendship.model';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { PostsComponent } from '../../components/posts/posts.component';
 import { FriendCardComponent } from '../../components/friend-card/friend-card.component';
+import { RequestsComponent } from '../../components/requests/requests.component';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { UserService } from '../../services/user.service';
@@ -17,7 +18,7 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-newsfeed',
   standalone: true,
-  imports: [SidebarComponent, PostsComponent, NgFor, FriendCardComponent, NgIf],
+  imports: [SidebarComponent, PostsComponent, NgFor, FriendCardComponent, NgIf, RequestsComponent],
   templateUrl: './newsfeed.component.html',
   styleUrl: './newsfeed.component.scss'
 })
