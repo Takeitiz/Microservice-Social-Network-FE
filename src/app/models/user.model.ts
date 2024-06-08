@@ -1,4 +1,7 @@
+import { Injectable } from "@angular/core";
 import { AppComponent } from "../app.component";
+import { UploadService } from "../services/upload.service";
+import { Util } from "../utils/utils";
 
 export class User {
     id: string;
@@ -9,6 +12,7 @@ export class User {
     phone: string;
     dateOfBirth: Date;
     role: number;
+    avatarUrl: string = "";
 
     constructor(id = '', firstName = '', lastName = '', email = '', password = '', phone = '', dateOfBirth = new Date(), role = 0) {
         this.id = id;
@@ -22,9 +26,8 @@ export class User {
     }
 
     getAvatar(): string {
-        // return AppComponent.baseUrl + 'app-images/' + this.id + '.jpg';
-        // fix later
-        return AppComponent.defaultAvatar;
+        if (this.avatarUrl === "") return AppComponent.defaultAvatar;
+        return this.avatarUrl;
     }
 
     getDefaultAvatar(): string {

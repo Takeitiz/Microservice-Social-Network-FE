@@ -156,10 +156,6 @@ export class PostsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getFullLinkContent(content: Content): string {
-    return Util.getFullLinkContent(content);
-  }
-
   getTimeDiff() {
     if (this.postData) {
       this.timeDiff = Util.getTimeDiff(this.postData.createdTime);
@@ -168,6 +164,7 @@ export class PostsComponent implements OnInit, AfterViewInit {
 
   handleMultiImages(): void {
     if (this.postData && this.postData.contents) {
+      console.log(this.postData.contents);
       let length = this.postData.contents.length;
 
       if (length > 1) {

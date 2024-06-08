@@ -37,10 +37,14 @@ export class SidebarComponent implements OnInit {
     this.onSettingClick.emit(tabIndex);
   }
 
-  createPost() {
-    console.log("createPost");
+  createPost(): void {
+    this.onCreatePostClick.emit();
 
-    // TODO: do later
+    const menuItem = document.querySelector('.menu-item.active') as HTMLElement;
+    if (menuItem.id !== 'home') {
+      const menuItemHome = document.querySelector('.menu-item#home') as HTMLElement;
+      menuItemHome.click();
+    }
   }
 
   initMenuItemsClickEvent() {

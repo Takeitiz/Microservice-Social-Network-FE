@@ -1,1 +1,71 @@
-<p>create-post works!</p>
+<div class="create-post">
+  <div>
+    <div class="profile-picture" (click)="navigateToWall()">
+      <img
+        [src]="this.currentUser.getAvatar()"
+        (error)="this.currentUser.getDefaultAvatar()"
+        alt=""
+      />
+    </div>
+  </div>
+
+  <input
+    type="text"
+    placeholder="What's on your mind?"
+    [value]="this.caption"
+  />
+  <label for="upload-image" class="btn btn-success"
+    ><i class="uil uil-images"></i
+  ></label>
+  <input
+    id="upload-image"
+    type="file"
+    accept="image/*"
+    (change)="onImageSelected($event)"
+    hidden
+  />
+</div>
+
+<div class="posting">
+  <div class="card">
+    <div class="title">
+      <h2>Create Post</h2>
+    </div>
+    <div class="content">
+      <a class="profile">
+        <div class="profile-picture" (click)="navigateToWall()">
+          <img
+            [src]="this.currentUser.getAvatar()"
+            (error)="this.currentUser.getDefaultAvatar()"
+            alt=""
+          />
+        </div>
+        <div class="handle">
+          <h4>{{ this.currentUser.getFullName() }}</h4>
+          <p class="text-muted">{{ this.currentUser.getEmailPrefix() }}</p>
+        </div>
+      </a>
+
+      <textarea
+        class="textarea"
+        placeholder="What's on your mind?"
+        [(ngModel)]="this.caption"
+      ></textarea>
+      <div id="image-wrapper"></div>
+      <div class="add-ons">
+        <h4>Add to your post</h4>
+        <label for="upload-image" class="btn btn-success"
+          ><i class="uil uil-images"></i
+        ></label>
+        <input
+          id="upload-image"
+          type="file"
+          accept="image/*"
+          (change)="onImageSelected($event)"
+          hidden
+        />
+      </div>
+      <button class="btn btn-primary" (click)="createPost()">Post</button>
+    </div>
+  </div>
+</div>

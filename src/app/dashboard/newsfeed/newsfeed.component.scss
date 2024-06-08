@@ -10,7 +10,9 @@
     text-decoration: none;
     list-style: none;
     border: none;
+}
 
+* {
     font-family: 'Roboto', sans-serif, Arial, Helvetica;
 }
 
@@ -47,12 +49,12 @@ body {
 .container {
     position: relative;
     display: grid;
-    grid-template-columns: 25vh auto 20vw;
+    grid-template-columns: 20% auto 18%;
     column-gap: 2rem;
     color: var(--color-dark);
 
     .middle {
-
+        
         .tab-home {
             display: block;
         }
@@ -64,40 +66,14 @@ body {
                 margin-bottom: 1rem;
             }
         }
-
-        .tab-settings {
-            display: none;
-            border-radius: var(--card-border-radius);
-            background-color: var(--color-white);
-            height: 50vh;
-
-
-            .action-buttons {
-                padding: 2rem var(--card-padding);
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                gap: 2rem;
-                flex-direction: column;
-
-                .btn {
-                    display: flex;
-                    font-size: 1.5rem;
-                    align-items: center;
-
-                    span {
-                        font-size: 1rem;
-                        margin-left: 0.5rem;
-                    }
-                }
-            }
-        }
     }
 
     .right {
         height: max-content;
+        width: max-content;
         position: sticky;
         top: var(--sticky-top-right);
+        right: 200px;
         bottom: 0;
 
         .friend-requests {
@@ -112,108 +88,4 @@ body {
     }
 }
 
-.chatroom {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 5rem;
-}
 
-.change-password {
-    background-color: rgba($color: white, $alpha: 0.5);
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 100;
-    text-align: center;
-    display: none;
-    place-items: center;
-    font-size: 1rem;
-
-    .card {
-        background-color: var(--color-white);
-        padding: 0 1rem var(--card-padding) var(--card-padding);
-        border-radius: var(--card-border-radius);
-        width: 40%;
-        box-shadow: 0 0 1rem var(--color-primary);
-        color: var(--color-dark);
-    }
-
-    .title {
-        padding: 0.5rem;
-        border-bottom: 1px solid var(--color-gray);
-    }
-
-    .content {
-        padding: var(--card-padding);
-        padding-bottom: 0;
-        text-align: left;
-
-        .input-pass {
-            margin-bottom: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-
-            label {
-                margin-left: 0.5rem;
-            }
-
-            input {
-                width: 100%;
-                background-color: var(--color-light);
-                border-radius: var(--card-border-radius);
-                padding: 0.5rem var(--card-padding);
-                color: var(--color-dark);
-                font-size: 0.85rem;
-            }
-
-            .alert-danger {
-                margin-left: 0.5rem;
-                color: rgb(255, 46, 46);
-                font-size: 0.85rem;
-            }
-        }
-
-        .btn {
-            width: 100%;
-            border-radius: var(--card-border-radius);
-        }
-    }
-}
-
-@media screen and (max-width: 1200px) {
-    .container {
-        grid-template-columns: 5rem auto 30vw;
-        gap: 1rem;
-    }
-
-    .change-password {
-        .card {
-            width: 60vw;
-        }
-    }
-}
-
-@media screen and (max-width:992px) {
-    .container {
-        grid-template-columns: 0 auto 5rem;
-        gap: 0;
-
-        .middle {
-            grid-column: 1/3;
-        }
-
-        .right {
-            display: none;
-        }
-    }
-
-    .change-password {
-        .card {
-            width: 70vw;
-        }
-    }
-}

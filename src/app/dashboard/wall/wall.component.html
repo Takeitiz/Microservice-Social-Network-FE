@@ -1,1 +1,159 @@
-<p>wall works!</p>
+<body>
+  <div class="container">
+    <div class="top">
+      <div class="profile">
+        <div class="head">
+          <div class="profile-picture">
+            <label for="upload-avatar"
+              ><img
+                [src]="this.currentUser.getAvatar()"
+                (error)="this.currentUser.getDefaultAvatar()"
+                alt=""
+            /></label>
+            <input
+              id="upload-avatar"
+              type="file"
+              accept="image/*"
+              (change)="chooseAvatar($event)"
+              hidden
+              *ngIf="isMyWall"
+            />
+          </div>
+          <div class="info">
+            <div class="name text-bold">
+              {{ this.currentUser.getFullName() }}
+            </div>
+            <div class="email text-muted">
+              {{ this.currentUser.getEmailPrefix() }}
+            </div>
+            <div class="friends">{{ friendCountStr }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="friend-request" *ngIf="!isMyWall">
+        <div class="request" *ngIf="relationIndex === 0">
+          <button class="btn btn-primary" (click)="addFriend()">
+            <i class="uil uil-user-plus"></i>
+            <span>Add</span>
+          </button>
+        </div>
+
+        <div class="confirm" *ngIf="relationIndex === 1">
+          <button class="btn btn-primary" (click)="acceptFriendRequest()">
+            <i class="uil uil-check"></i>
+            <span>Accept</span>
+          </button>
+          <button class="btn btn-muted" (click)="unFriend()">
+            <i class="uil uil-times"></i>
+            <span>Decline</span>
+          </button>
+        </div>
+
+        <div class="friend" *ngIf="relationIndex === 2">
+          <button class="btn btn-primary" (click)="unFriend()">
+            <i class="uil uil-user-check"></i>
+            <span>Friend</span>
+          </button>
+        </div>
+
+        <div class="friend" *ngIf="relationIndex === 3">
+          <button class="btn btn-primary" (click)="unFriend()">
+            <i class="uil uil-ban"></i>
+            <span>Blocked</span>
+          </button>
+        </div>
+
+        <div class="pending" *ngIf="relationIndex === 4">
+          <button class="btn btn-primary" (click)="unFriend()">
+            <i class="uil uil-user-exclamation"></i>
+            <span>Pending</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <span id="tab-posts" class="active">Posts</span>
+      <span id="tab-friends">Friends</span>
+      <span id="tab-images">Images</span>
+    </div>
+
+    <div class="posts-layout">
+      <div class="detail-info">
+        <div class="wrapper">
+          <h2>Information</h2>
+          <div class="detail">
+            <div>
+              <i class="uil uil-user-circle"></i
+              ><span>{{ this.currentUser.getFullName() }}</span>
+            </div>
+            <div>
+              <i class="uil uil-envelope"></i
+              ><span>{{ this.currentUser.email }}</span>
+            </div>
+            <div>
+              <i class="uil uil-gift"></i
+              ><span>{{ this.currentUser.getDateOfBirth() }}</span>
+            </div>
+            <div>
+              <i class="uil uil-phone"></i
+              ><span>{{ this.currentUser.phone }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-posts">
+        <app-create-post
+          *ngIf="isMyWall"
+          [currentUser]="this.currentUser"
+        ></app-create-post>
+        <div class="feeds">
+          <app-posts
+            *ngFor="let feed of this.myFeeds"
+            [currentUser]="loggedUser"
+            [postData]="feed"
+          >
+          </app-posts>
+        </div>
+      </div>
+    </div>
+
+    <div class="friends-layout">
+      <app-friend-card
+        *ngFor="let friend of this.friends"
+        [currentUser]="this.currentUser"
+        [friendship]="friend"
+        [showFriendButton]="isMyWall"
+      >
+      </app-friend-card>
+    </div>
+
+    <div class="images-layout">
+      <div class="image-wrapper" *ngFor="let image of this.images">
+        <img [src]="image.linkContent" alt="Error" />
+      </div>
+    </div>
+  </div>
+
+  <div class="upload-avatar">
+    <div class="card">
+      <div class="title">
+        <h2>Change your avatar</h2>
+      </div>
+      <div class="content">
+        <div class="image-wrapper">
+          <img class="avatar" />
+        </div>
+        <label for="upload-image" class="btn btn-success">Choose Image</label>
+        <input
+          id="upload-image"
+          type="file"
+          accept="image/*"
+          (change)="chooseAvatar($event)"
+          hidden
+        />
+        <button class="btn btn-primary" (click)="uploadAvatar()">Update</button>
+      </div>
+    </div>
+  </div>
+</body>

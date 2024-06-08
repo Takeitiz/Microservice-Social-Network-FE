@@ -1,67 +1,48 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Friendship } from '../../models/friendship.model';
 import { User } from '../../models/user.model';
+import { Friendship } from '../../models/friendship.model';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
 import { FriendshipService } from '../../services/friendship.service';
 import { RelationService } from '../../services/relation.service';
 import { firstValueFrom } from 'rxjs';
-import { NgIf } from '@angular/common';
-import { UploadService } from '../../services/upload.service';
-
 
 @Component({
-  selector: 'app-friend-card',
+  selector: 'app-profile-card',
   standalone: true,
-  imports: [NgIf],
-  templateUrl: './friend-card.component.html',
-  styleUrl: './friend-card.component.scss'
+  imports: [],
+  templateUrl: './profile-card.component.html',
+  styleUrl: './profile-card.component.scss'
 })
-export class FriendCardComponent implements OnInit {
-  @Input() friendship!: Friendship;
-  @Input() currentUser!: User;
-  @Input() showFriendButton: boolean = true;
-
-  user: User = new User();
+export class ProfileCardComponent implements OnInit {
+  @Input() currentUser?: User;
+  @Input() user: User = new User();
 
   icons: string[] = ['uil uil-user-plus', "uil uil-user-times", 'uil uil-user-check', "uil uil-ban", 'uil uil-user-exclamation'];
+  friendship?: Friendship;
   relationIndex = 0;
 
   constructor(
     private router: Router,
-    private userService: UserService,
     private friendshipService: FriendshipService,
-    private uploadService: UploadService,
-    private relationService: RelationService
-  ) { }
+    private relationService: RelationService) { }
 
   ngOnInit() {
-    this.friendship = Object.assign(new Friendship(), this.friendship);
-
-    let id = this.friendship.userId === this.currentUser.id ? this.friendship.friendId : this.friendship.userId;
-    this.userService.getById(id).subscribe(data => this.user = data);
-
-    this.getCurrentUserAvatar();
-    this.getRelationship(false);
+    if (this.user) {
+      this.user = Object.assign(new User(), this.user);
+    }
+    this.getRelationship();
   }
 
-  getCurrentUserAvatar() {
-    this.uploadService.fetchImage(this.currentUser.id).subscribe(data => {
-      console.log(data);
-      this.currentUser.avatarUrl = data;
-    });
-  }
-
-  async getRelationship(update: boolean): Promise<void> {
-    if (update) {
+  async getRelationship(): Promise<void> {
+    if (this.currentUser && this.user) {
       this.friendship = await firstValueFrom(
         this.relationService.getRelationshipBetweenUsers(
           this.user.id, this.currentUser.id));
-    }
 
-    this.relationIndex = this.friendship !== null ? (this.friendship.status + 1) : 0;
-    if (this.relationIndex === 1 && this.friendship.friendId === this.currentUser.id) {
-      this.relationIndex = 4;
+      this.relationIndex = this.friendship !== null ? (this.friendship.status + 1) : 0;
+      if (this.relationIndex === 1 && this.friendship.friendId === this.currentUser.id) {
+        this.relationIndex = 4;
+      }
     }
   }
 

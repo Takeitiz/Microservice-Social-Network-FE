@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
 import { NgIf, } from '@angular/common';
 import { User } from '../models/user.model';
+import { UploadService } from '../services/upload.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,9 +15,13 @@ import { User } from '../models/user.model';
 export class DashboardComponent implements OnInit {
   user: User = new User();
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private uploadService: UploadService
+  ) { }
 
   ngOnInit() {
+    this.initElementsClickEvent();
     this.getCurrentUser();
   }
 
@@ -35,7 +40,15 @@ export class DashboardComponent implements OnInit {
       this.user.email = userObj.email;
       this.user.phone = userObj.attributes.phone[0];
       this.user.dateOfBirth = dateOfBirth;
+
+      this.getCurrentUserAvatar();
     }
+  }
+
+  getCurrentUserAvatar() {
+    this.uploadService.fetchImage(this.user.id).subscribe(data => {
+      this.user.avatarUrl = data;
+    });
   }
 
   navigateToDashboard() {
@@ -47,8 +60,32 @@ export class DashboardComponent implements OnInit {
   }
 
   search(evt: any) {
-    // TODO: Implement search
-    console.log("Search");
+    const keyword = evt.target.value;
+    evt.target.value = '';
+
+    if (keyword) {
+      this.router.navigateByUrl('home/search/' + keyword);
+    }
   }
 
+  initElementsClickEvent(): void {
+    const bell = document.querySelector('.notification') as HTMLElement;
+    const popup = document.querySelector('.notification-popup') as HTMLElement;
+    const notiCount = document.querySelector('.notification-count') as HTMLElement;
+
+    bell.addEventListener('click', (event) => {
+      event.stopPropagation();
+      let visible = popup.style.display && popup.style.display !== 'none';
+      popup.style.display = visible ? 'none' : 'block';
+      notiCount.style.display = 'none';
+    });
+
+    popup.addEventListener('click', (event) => {
+      event.stopPropagation();
+    })
+
+    window.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+  }
 }

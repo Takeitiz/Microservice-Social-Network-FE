@@ -1,7 +1,10 @@
+import { Observable } from "rxjs";
 import { AppComponent } from "../app.component";
 import { Content } from "../models/content.model";
+import { UploadService } from "../services/upload.service";
 
 export class Util {
+    static uploadService: UploadService;
 
     static formatDate(date: Date): string {
         let values = date.toString().slice(0, 10).split('-');
@@ -12,6 +15,14 @@ export class Util {
 
     static getFullLinkContent(content: Content): string {
         return AppComponent.baseUrl + '/app-images/' + content.postId + '/' + content.linkContent;
+    }
+
+    static getCurrentUserAvatar(userId: string): string {
+        let url = "";
+        this.uploadService.fetchImage(userId).subscribe(data => {
+            url = data;
+        });
+        return url;
     }
 
     static getTimeDiff(time: Date): string {

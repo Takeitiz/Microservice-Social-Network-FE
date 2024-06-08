@@ -1,25 +1,22 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { SignInComponent } from './login/sign-in/sign-in.component';
-import { SignUpComponent } from './login/sign-up/sign-up.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NewsfeedComponent } from './dashboard/newsfeed/newsfeed.component';
+import { WallComponent } from './dashboard/wall/wall.component';
+import { ExploreComponent } from './dashboard/explore/explore.component';
 
 export const routes: Routes = [
+    {
+        path: '', redirectTo: 'home', pathMatch: 'full'
+    },
     {
         path: 'home', component: DashboardComponent,
         children: [
             {
                 path: '', component: NewsfeedComponent,
             },
-        ]
-    },
-    {
-        path: 'auth', component: LoginComponent,
-        children: [
-            { path: '', redirectTo: 'login', pathMatch: 'full' },
-            { path: 'login', component: SignInComponent },
-            { path: 'signup', component: SignUpComponent }
+            { path: 'wall', component: WallComponent },
+            { path: 'wall/:userId', component: WallComponent },
+            { path: 'search/:keyword', component: ExploreComponent }
         ]
     },
 ];

@@ -11,9 +11,7 @@
 
     <div class="middle">
       <div class="tab-home">
-        <!------------Create--Post--------------->
-
-        <!------------Feeds---------------------->
+        <app-create-post [currentUser]="this.currentUser"></app-create-post>
         <div class="feeds">
           <app-posts
             *ngFor="let feed of this.newFeeds"

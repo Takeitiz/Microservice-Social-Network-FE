@@ -56,7 +56,7 @@
   >
     <img
       *ngFor="let content of this.postData.contents"
-      [src]="getFullLinkContent(content)"
+      [src]="content.linkContent"
       alt=""
     />
   </div>
@@ -91,7 +91,7 @@
     >
       <img
         *ngFor="let content of this.sharePostData.contents"
-        [src]="getFullLinkContent(content)"
+        [src]="content.linkContent"
         alt=""
       />
     </div>
@@ -124,11 +124,6 @@
 
     <div class="liked-by" *ngIf="this.likedByString">
       <div>
-        <!-- <span><img src="https://i.pinimg.com/736x/a6/61/f4/a661f414ac9a447b953338b2c953bb38.jpg" alt=""></span>
-            <span><img src="https://cdn.iconscout.com/icon/free/png-256/avatar-370-456322.png" alt=""></span>
-            <span><img
-                    src="https://guantanamocity.org/wp-content/uploads/2020/12/tong-hop-avatar-anime-avatar-anime-doi-cool-ngau-cute-panda-brown-1.jpg"
-                    alt=""></span> -->
         <p class="text-muted text-bold">{{ this.likedByString }}</p>
       </div>
     </div>
@@ -184,7 +179,6 @@
     <div class="title">
       <h2>Share as post</h2>
     </div>
-    <!-- <span class="textarea" role="textbox" contenteditable="true" [textContent]="this.shareCaption"></span> -->
     <textarea
       class="textarea"
       placeholder="What's on your mind?"
@@ -197,14 +191,14 @@
       >
         <img
           *ngFor="let content of this.sharePostData.contents"
-          [src]="getFullLinkContent(content)"
+          [src]="content.linkContent"
           alt=""
         />
       </div>
       <div class="photo" *ngIf="this.postData && this.postData.contents">
         <img
           *ngFor="let content of this.postData.contents"
-          [src]="getFullLinkContent(content)"
+          [src]="content.linkContent"
           alt=""
         />
       </div>

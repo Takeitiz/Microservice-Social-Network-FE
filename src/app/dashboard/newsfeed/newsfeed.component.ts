@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { User } from '../../models/user.model';
 import { Post } from '../../models/post.model';
 import { Friendship } from '../../models/friendship.model';
@@ -6,6 +6,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { PostsComponent } from '../../components/posts/posts.component';
 import { FriendCardComponent } from '../../components/friend-card/friend-card.component';
 import { RequestsComponent } from '../../components/requests/requests.component';
+import { CreatePostComponent } from '../../components/create-post/create-post.component';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { UserService } from '../../services/user.service';
@@ -14,15 +15,25 @@ import { NgFor } from '@angular/common';
 import { RelationService } from '../../services/relation.service';
 import { KeycloakService } from '../../services/keycloak/keycloak.service';
 import { NgIf } from '@angular/common';
+import { UploadService } from '../../services/upload.service';
 
 @Component({
   selector: 'app-newsfeed',
   standalone: true,
-  imports: [SidebarComponent, PostsComponent, NgFor, FriendCardComponent, NgIf, RequestsComponent],
+  imports: [
+    SidebarComponent,
+    PostsComponent,
+    NgFor,
+    FriendCardComponent,
+    NgIf,
+    RequestsComponent,
+    CreatePostComponent
+  ],
   templateUrl: './newsfeed.component.html',
   styleUrl: './newsfeed.component.scss'
 })
 export class NewsfeedComponent implements OnInit {
+  @ViewChild(CreatePostComponent) createPost?: CreatePostComponent;
 
   currentUser: User = new User();
   newFeeds: Post[] = [];
@@ -36,6 +47,7 @@ export class NewsfeedComponent implements OnInit {
     private userService: UserService,
     private newsfeedService: NewsfeedService,
     private relationService: RelationService,
+    private uploadService: UploadService,
     private keycloakService: KeycloakService
   ) {
   }
@@ -60,9 +72,16 @@ export class NewsfeedComponent implements OnInit {
       this.currentUser.phone = userObj.attributes.phone[0];
       this.currentUser.dateOfBirth = dateOfBirth;
 
+      this.getCurrentUserAvatar();
       this.getNewFeeds();
       this.getFriendRequests();
     }
+  }
+
+  getCurrentUserAvatar() {
+    this.uploadService.fetchImage(this.currentUser.id).subscribe(data => {
+      this.currentUser.avatarUrl = data;
+    });
   }
 
   getNewFeeds(): void {
@@ -116,6 +135,9 @@ export class NewsfeedComponent implements OnInit {
   }
 
   createPostButtonClick(): void {
-    console.log("createPost");
+    if (this.createPost) {
+      this.createPost.showCreatePost();
+      this.showTab(0);
+    }
   }
 }
