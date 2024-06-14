@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Comment } from '../../models/comment.model';
 import { Util } from '../../utils/utils';
 import { User } from '../../models/user.model';
+import { UploadService } from '../../services/upload.service';
 
 @Component({
   selector: 'app-comment',
@@ -16,10 +17,25 @@ export class CommentComponent implements OnInit {
 
   timeDiff: string = '';
 
-  constructor() { }
+  constructor(
+    private uploadService: UploadService
+  ) { }
 
   ngOnInit() {
     this.commentData.user = Object.assign(new User(), this.commentData.user);
+
+    this.uploadService.fetchImage(this.commentData.user.id).subscribe({
+      next: (data) => {
+        if (this.commentData.user) {
+          this.commentData.user.avatarUrl = data;
+        }
+      },
+      error: (err) => {
+        console.error('Failed to fetch image', err);
+      }
+    });
+
+
     this.getTimeDiff();
   }
 

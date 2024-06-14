@@ -2,9 +2,9 @@
   <div class="profile">
     <div class="profile-picture">
       <img
-        [src]="this.user.getAvatar()"
+        [src]="user.getAvatar()"
         (click)="navigateToWall()"
-        (error)="this.user.getDefaultAvatar()"
+        (error)="user.getDefaultAvatar()"
         alt=""
       />
     </div>

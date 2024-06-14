@@ -24,7 +24,7 @@ export class FriendCardComponent implements OnInit {
 
   user: User = new User();
 
-  icons: string[] = ['uil uil-user-plus', "uil uil-user-times", 'uil uil-user-check', "uil uil-ban", 'uil uil-user-exclamation'];
+  icons: string[] = ['uil uil-user-plus', "uil uil-user-times"];
   relationIndex = 0;
 
   constructor(
@@ -41,15 +41,10 @@ export class FriendCardComponent implements OnInit {
     let id = this.friendship.userId === this.currentUser.id ? this.friendship.friendId : this.friendship.userId;
     this.userService.getById(id).subscribe(data => this.user = data);
 
-    this.getCurrentUserAvatar();
-    this.getRelationship(false);
-  }
-
-  getCurrentUserAvatar() {
-    this.uploadService.fetchImage(this.currentUser.id).subscribe(data => {
-      console.log(data);
-      this.currentUser.avatarUrl = data;
+    this.uploadService.fetchImage(id).subscribe(data => {
+      this.user.avatarUrl = data;
     });
+    this.getRelationship(false);
   }
 
   async getRelationship(update: boolean): Promise<void> {
@@ -59,10 +54,7 @@ export class FriendCardComponent implements OnInit {
           this.user.id, this.currentUser.id));
     }
 
-    this.relationIndex = this.friendship !== null ? (this.friendship.status + 1) : 0;
-    if (this.relationIndex === 1 && this.friendship.friendId === this.currentUser.id) {
-      this.relationIndex = 4;
-    }
+    this.relationIndex = this.friendship !== null ? 1 : 0;
   }
 
   onAddFriendButtonClick(): void {
@@ -71,14 +63,8 @@ export class FriendCardComponent implements OnInit {
         this.addFriend();
         break;
       }
-      case 1:
-      case 2:
-      case 3: {
+      case 1: {
         this.unFriend();
-        break;
-      }
-      case 4: {
-        this.navigateToWall();
         break;
       }
       default: break;

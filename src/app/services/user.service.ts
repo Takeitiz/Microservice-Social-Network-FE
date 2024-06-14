@@ -13,7 +13,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getById(id: string): Observable<User> {
-    let getUrl = `http://localhost:8090/api/user/${id}`;
+    let getUrl = `${this.apiUrl}/${id}`;
     return this.http.get<User>(getUrl, AppComponent.httpOptions).pipe(map(data => Object.assign(new User(), data)));
   }
 

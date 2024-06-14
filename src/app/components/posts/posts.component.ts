@@ -16,6 +16,7 @@ import { PostService } from '../../services/post.service';
 import { ReactService } from '../../services/react.service';
 import { AdditionalService } from '../../services/additional.service';
 import { CommentComponent } from '../comment/comment.component';
+import { UploadService } from '../../services/upload.service';
 
 @Component({
   selector: 'app-posts',
@@ -61,7 +62,8 @@ export class PostsComponent implements OnInit, AfterViewInit {
     private commentService: CommentService,
     private postService: PostService,
     private reactService: ReactService,
-    private additionalService: AdditionalService
+    private additionalService: AdditionalService,
+    private uploadService: UploadService
   ) { }
 
 
@@ -76,7 +78,6 @@ export class PostsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.handleMultiImages();
     this.setEditMode(false);
   }
 
@@ -89,6 +90,9 @@ export class PostsComponent implements OnInit, AfterViewInit {
         this.sharePostData = data;
         this.shareCaptionArray = this.sharePostData.caption.split('\n');
         this.sharePostOwner = Object.assign(new User(), this.sharePostData.user);
+        this.uploadService.fetchImage(this.sharePostOwner.id).subscribe(data => {
+          this.sharePostOwner.avatarUrl = data;
+        });
         this.sharePostTimeDiff = Util.getTimeDiff(this.sharePostData.createdTime);
       })
     }
@@ -100,6 +104,9 @@ export class PostsComponent implements OnInit, AfterViewInit {
         .subscribe({
           next: (data) => {
             this.postOwner = data;
+            this.uploadService.fetchImage(this.postOwner.id).subscribe(data => {
+              this.postOwner.avatarUrl = data;
+            });
           },
           error: (error) => {
             console.log('Failed to fetch post owner:', error);
@@ -162,26 +169,6 @@ export class PostsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  handleMultiImages(): void {
-    if (this.postData && this.postData.contents) {
-      console.log(this.postData.contents);
-      let length = this.postData.contents.length;
-
-      if (length > 1) {
-        const wrappers = this.elementRef.nativeElement.querySelectorAll('.photo') as HTMLElement[];
-
-        wrappers.forEach(wrapper => {
-          const images = wrapper.querySelectorAll('.photo img');
-
-          wrapper.style.display = 'flex';
-          images.forEach(img => {
-            (img as HTMLElement).style.width = (100 / length) + '%';
-          });
-        });
-      }
-    }
-  }
-
   createComment() {
     if (this.comment && this.postData) {
       let newComment = new Comment();
@@ -206,7 +193,7 @@ export class PostsComponent implements OnInit, AfterViewInit {
 
   onDeleteButtonClick() {
     if (this.postData) {
-      this.postService.delete(this.postData.id).subscribe(data => this.router.navigateByUrl(''));
+      this.postService.delete(this.postData.id).subscribe(data => window.location.reload());
     }
   }
 
@@ -273,30 +260,6 @@ export class PostsComponent implements OnInit, AfterViewInit {
     input.focus();
   }
 
-  async getPostCommentsWithPaging(): Promise<void> {
-    // if (this.postData) {
-    //   let comments = await lastValueFrom(this.newsfeedService.getPostComments(this.postData.id, this.commentPaging));
-
-    //   if (comments.length == 0) {
-    //     this.canViewMore = false;
-    //     return;
-    //   }
-
-    //   if (this.splitComment) {
-    //     this.postData.comments = [];
-    //     this.splitComment = false;
-    //     this.commentSize = 1;
-    //   }
-
-    //   comments = comments.concat(this.postData.comments!);
-    //   this.postData.comments = comments;
-
-    //   this.commentPaging++;
-
-    //   this.getCommentCount();
-    // }
-  }
-
   sharePost(): void {
     if (this.postData) {
       let sharePost = new Post();
@@ -304,7 +267,14 @@ export class PostsComponent implements OnInit, AfterViewInit {
       sharePost.userId = this.currentUser.id;
       sharePost.caption = this.shareCaption;
 
-      this.postService.add(sharePost).subscribe(success => this.router.navigateByUrl(''));
+      this.postService.add(sharePost).subscribe({
+        next: (result) => {
+          window.location.reload();
+        },
+        error: (error) => {
+          console.error('Failed to create post:', error);
+        }
+      });
     }
   }
 

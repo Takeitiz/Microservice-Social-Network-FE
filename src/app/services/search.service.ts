@@ -8,7 +8,7 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class SearchService {
-  private apiUrl: string = 'http://localhost:8090/api/search/users';
+  private apiUrl: string = AppComponent.baseUrl + '/search/users';
 
   constructor(private http: HttpClient) { }
 

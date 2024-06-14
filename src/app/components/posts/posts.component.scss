@@ -70,7 +70,7 @@ textarea {
         margin: 0.7rem 0;
         position: relative;
         max-height: 25rem;
-        display: block;
+        display: flex;
         border-radius: var(--card-border-radius);
 
         img {
@@ -260,6 +260,20 @@ textarea {
     border: 1px solid var(--color-gray);
     border-bottom: 0;
     padding: var(--card-padding);
+
+    .photo {
+        gap: 0.2rem;
+        overflow: hidden;
+        margin: 0.7rem 0;
+        position: relative;
+        max-height: 25rem;
+        display: flex;
+        border-radius: var(--card-border-radius);
+
+        img {
+            border-radius: var(--card-border-radius);
+        }
+    }
 }
 
 .create-share {

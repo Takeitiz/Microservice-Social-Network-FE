@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FriendshipService } from '../../services/friendship.service';
 import { RelationService } from '../../services/relation.service';
 import { firstValueFrom } from 'rxjs';
+import { UploadService } from '../../services/upload.service';
 
 @Component({
   selector: 'app-profile-card',
@@ -17,19 +18,24 @@ export class ProfileCardComponent implements OnInit {
   @Input() currentUser?: User;
   @Input() user: User = new User();
 
-  icons: string[] = ['uil uil-user-plus', "uil uil-user-times", 'uil uil-user-check', "uil uil-ban", 'uil uil-user-exclamation'];
+  icons: string[] = ['uil uil-user-plus', "uil uil-user-times"];
   friendship?: Friendship;
   relationIndex = 0;
 
   constructor(
     private router: Router,
     private friendshipService: FriendshipService,
-    private relationService: RelationService) { }
+    private relationService: RelationService,
+    private uploadService: UploadService,
+  ) { }
 
   ngOnInit() {
     if (this.user) {
       this.user = Object.assign(new User(), this.user);
     }
+    this.uploadService.fetchImage(this.user.id).subscribe(data => {
+      this.user.avatarUrl = data;
+    });
     this.getRelationship();
   }
 
@@ -39,10 +45,7 @@ export class ProfileCardComponent implements OnInit {
         this.relationService.getRelationshipBetweenUsers(
           this.user.id, this.currentUser.id));
 
-      this.relationIndex = this.friendship !== null ? (this.friendship.status + 1) : 0;
-      if (this.relationIndex === 1 && this.friendship.friendId === this.currentUser.id) {
-        this.relationIndex = 4;
-      }
+      this.relationIndex = this.friendship !== null ? 1 : 0;
     }
   }
 

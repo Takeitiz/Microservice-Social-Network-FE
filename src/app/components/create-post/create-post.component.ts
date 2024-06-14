@@ -39,7 +39,6 @@ export class CreatePostComponent implements OnInit {
     newPost.userId = this.currentUser.id;
     newPost.caption = this.caption;
 
-    let counter = 0;
     this.postService.add(newPost).subscribe(async postId => {
       for (const media of this.mediaContents) {
         await new Promise<void>((resolve, reject) => {
@@ -47,7 +46,7 @@ export class CreatePostComponent implements OnInit {
 
             let content = new Content();
             content.postId = postId;
-            content.linkContent = "https://res.cloudinary.com/dwuvvf1tm/image/upload/v1717578107/" + result;
+            content.linkContent = result;
             content.image_id = result;
             content.type = 1;
             content.textContent = "random";
@@ -65,7 +64,7 @@ export class CreatePostComponent implements OnInit {
           })
         })
       }
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('/home');
     })
   }
 
@@ -73,15 +72,6 @@ export class CreatePostComponent implements OnInit {
     const file = event.target.files[0];
 
     if (file) {
-      if ((file.size / 1024 / 1024) > 5) {
-        Swal.fire(
-          'Too large!',
-          'Maximum size of a file is 5MB',
-          'error'
-        );
-        return;
-      }
-
       this.mediaContents.push(file);
       const wrapper = this.elementRef.nativeElement.querySelector('#image-wrapper');
 
@@ -113,9 +103,9 @@ export class CreatePostComponent implements OnInit {
       let img = document.createElement('img');
 
       img.onload = () => {
-        URL.revokeObjectURL(img.src);  // no longer needed, free memory
+        URL.revokeObjectURL(img.src);
       }
-      img.src = URL.createObjectURL(file); // set src to blob url
+      img.src = URL.createObjectURL(file);
       img.style.width = '100%';
       img.style.height = '100%';
       img.style.objectFit = 'cover';

@@ -58,6 +58,7 @@
       *ngFor="let content of this.postData.contents"
       [src]="content.linkContent"
       alt=""
+      [style.width]="100 / postData.contents.length + '%'"
     />
   </div>
 
@@ -93,6 +94,7 @@
         *ngFor="let content of this.sharePostData.contents"
         [src]="content.linkContent"
         alt=""
+        [style.width]="100 / sharePostData.contents.length + '%'"
       />
     </div>
   </div>
@@ -110,16 +112,6 @@
           ><i class="uil uil-share"></i
         ></span>
       </div>
-
-      <div class="bookmark">
-        <span
-          class="comment-count text-muted"
-          (click)="getPostCommentsWithPaging()"
-        >
-          {{ this.commentCountString }}
-        </span>
-        <span hidden><i class="uil uil-bookmark-full"></i></span>
-      </div>
     </div>
 
     <div class="liked-by" *ngIf="this.likedByString">
@@ -129,14 +121,6 @@
     </div>
 
     <div class="comments-container">
-      <div
-        class="view-more text-muted"
-        *ngIf="canViewMore"
-        (click)="getPostCommentsWithPaging()"
-      >
-        View more...
-      </div>
-
       <app-comment
         *ngFor="let comment of this.postData.comments"
         [commentData]="comment"

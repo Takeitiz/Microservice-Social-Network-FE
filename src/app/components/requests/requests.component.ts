@@ -4,6 +4,7 @@ import { User } from '../../models/user.model';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { FriendshipService } from '../../services/friendship.service';
+import { UploadService } from '../../services/upload.service';
 
 @Component({
   selector: 'app-requests',
@@ -24,6 +25,7 @@ export class RequestsComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private friendshipService: FriendshipService,
+    private uploadService: UploadService
   ) { }
 
   ngOnInit() {
@@ -32,13 +34,19 @@ export class RequestsComponent implements OnInit {
 
   getUser() {
     this.userService.getById(this.friendshipData.userId).subscribe(data => this.user = data);
+    this.uploadService.fetchImage(this.friendshipData.userId).subscribe(data => {
+      this.user.avatarUrl = data;
+    });
   }
 
   async accept(): Promise<void> {
-    if (this.friendshipData.status === 0) {
-      this.friendshipData.status = 1;
-      this.friendshipService.update(this.friendshipData).subscribe(data => this.showResponse('accepted'));
-    }
+    console.log("accept");
+    console.log(this.friendshipData.status);
+
+    console.log("come in");
+    this.friendshipData.status = 1;
+    this.friendshipService.update(this.friendshipData).subscribe(data => this.showResponse('accepted'));
+
   }
 
   decline(): void {
