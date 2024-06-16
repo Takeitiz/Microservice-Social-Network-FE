@@ -19,8 +19,11 @@
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
     "@auth0/angular-jwt": "^5.2.0",
+    "@ngx-translate/core": "^15.0.0",
     "keycloak-js": "^24.0.4",
     "rxjs": "~7.8.0",
+    "stream-chat": "^8.36.0",
+    "stream-chat-angular": "^4.68.0",
     "sweetalert2": "^11.11.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

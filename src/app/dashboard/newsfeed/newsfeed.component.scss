@@ -1,5 +1,5 @@
 @import url('../dashboard.component.scss');
-
+@import 'stream-chat-angular/src/assets/styles/v2/scss/index.scss';
 *,
 *::before,
 *::after {
@@ -88,4 +88,21 @@ body {
     }
 }
 
+
+#root {
+    display: flex;
+    height: 100%;
+  
+    stream-channel-list {
+      width: 30%;
+    }
+  
+    stream-channel {
+      width: 100%;
+    }
+  
+    stream-thread {
+      width: 45%;
+    }
+  }
 
